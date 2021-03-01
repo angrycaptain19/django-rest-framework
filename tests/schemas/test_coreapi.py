@@ -792,8 +792,8 @@ class TestAutoSchema(TestCase):
             assert isinstance(view.schema, CustomViewInspector)
 
     def test_get_link_requires_instance(self):
-        descriptor = APIView.schema  # Accessed from class
         with pytest.raises(AssertionError):
+            descriptor = APIView.schema  # Accessed from class
             descriptor.get_link(None, None, None)  # ???: Do the dummy arguments require a tighter assert?
 
     @pytest.mark.skipif(not coreapi, reason='coreapi is not installed')
@@ -1164,10 +1164,7 @@ class TestURLNamingCollisions(TestCase):
             suffixes = (None for m in methods)
 
         for method, suffix in zip(methods, suffixes):
-            if suffix is not None:
-                key = '{}_{}'.format(method, suffix)
-            else:
-                key = method
+            key = '{}_{}'.format(method, suffix) if suffix is not None else method
             assert loc[key].url == url
 
     def test_manually_routing_generic_view(self):

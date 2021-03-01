@@ -64,7 +64,7 @@ class TestAPITestClient(TestCase):
         Setting `.credentials()` adds the required headers to each request.
         """
         self.client.credentials(HTTP_AUTHORIZATION='example')
-        for _ in range(0, 3):
+        for _ in range(3):
             response = self.client.get('/view/')
             assert response.data['auth'] == 'example'
 

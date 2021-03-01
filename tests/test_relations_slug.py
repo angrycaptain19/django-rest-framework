@@ -55,12 +55,12 @@ class SlugForeignKeyTests(TestCase):
     def test_foreign_key_retrieve(self):
         queryset = ForeignKeySource.objects.all()
         serializer = ForeignKeySourceSerializer(queryset, many=True)
-        expected = [
-            {'id': 1, 'name': 'source-1', 'target': 'target-1'},
-            {'id': 2, 'name': 'source-2', 'target': 'target-1'},
-            {'id': 3, 'name': 'source-3', 'target': 'target-1'}
-        ]
         with self.assertNumQueries(4):
+            expected = [
+                {'id': 1, 'name': 'source-1', 'target': 'target-1'},
+                {'id': 2, 'name': 'source-2', 'target': 'target-1'},
+                {'id': 3, 'name': 'source-3', 'target': 'target-1'}
+            ]
             assert serializer.data == expected
 
     def test_foreign_key_retrieve_select_related(self):

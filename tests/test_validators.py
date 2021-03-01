@@ -13,7 +13,7 @@ from rest_framework.validators import (
 
 
 def dedent(blocktext):
-    return '\n'.join([line[12:] for line in blocktext.splitlines()[1:-1]])
+    return '\n'.join(line[12:] for line in blocktext.splitlines()[1:-1])
 
 
 # Tests for `UniqueValidator`
@@ -664,8 +664,8 @@ class ValidatorsTests(TestCase):
     def test_validator_raises_error_if_not_all_fields_are_provided(self):
         validator = BaseUniqueForValidator(queryset=object(), field='foo',
                                            date_field='bar')
-        attrs = {'foo': 'baz'}
         with pytest.raises(ValidationError):
+            attrs = {'foo': 'baz'}
             validator.enforce_required_fields(attrs)
 
     def test_validator_raises_error_when_abstract_method_called(self):
