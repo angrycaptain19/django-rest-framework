@@ -296,11 +296,11 @@ class URLizerTests(TestCase):
         """
         Test if JSON URLs are transformed into links well
         """
-        data = {}
-        data['"url": "http://api/users/1/", '] = \
-            '"url": "<a href="http://api/users/1/">http://api/users/1/</a>", '
-        data['"foo_set": [\n    "http://api/foos/1/"\n], '] = \
-            '"foo_set": [\n    "<a href="http://api/foos/1/">http://api/foos/1/</a>"\n], '
+        data = {
+            '"url": "http://api/users/1/", ': '"url": "<a href="http://api/users/1/">http://api/users/1/</a>", ',
+            '"foo_set": [\n    "http://api/foos/1/"\n], ': '"foo_set": [\n    "<a href="http://api/foos/1/">http://api/foos/1/</a>"\n], ',
+        }
+
         self._urlize_dict_check(data)
 
     def test_template_render_with_autoescape(self):

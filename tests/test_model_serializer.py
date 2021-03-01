@@ -30,7 +30,7 @@ from .models import NestedForeignKeySource
 
 
 def dedent(blocktext):
-    return '\n'.join([line[12:] for line in blocktext.splitlines()[1:-1]])
+    return '\n'.join(line[12:] for line in blocktext.splitlines()[1:-1])
 
 
 # Tests for regular field mappings.

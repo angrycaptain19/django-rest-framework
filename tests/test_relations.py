@@ -34,9 +34,10 @@ class MockApiSettings:
 
 class TestRelatedFieldHTMLCutoff(APISimpleTestCase):
     def setUp(self):
-        self.queryset = MockQueryset([
-            MockObject(pk=i, name=str(i)) for i in range(0, 1100)
-        ])
+        self.queryset = MockQueryset(
+            [MockObject(pk=i, name=str(i)) for i in range(1100)]
+        )
+
         self.monkeypatch = MonkeyPatch()
 
     def test_no_settings(self):

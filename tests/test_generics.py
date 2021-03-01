@@ -463,16 +463,17 @@ class DynamicSerializerView(generics.ListCreateAPIView):
     renderer_classes = (renderers.BrowsableAPIRenderer, renderers.JSONRenderer)
 
     def get_serializer_class(self):
-        if self.request.method == 'POST':
-            class DynamicSerializer(serializers.ModelSerializer):
-                class Meta:
-                    model = TwoFieldModel
-                    fields = ('field_b',)
-        else:
-            class DynamicSerializer(serializers.ModelSerializer):
-                class Meta:
-                    model = TwoFieldModel
-                    fields = '__all__'
+
+
+        class DynamicSerializer(serializers.ModelSerializer):
+
+
+
+            class Meta:
+                model = TwoFieldModel
+                fields = ('field_b', ) if self.request.method == 'POST' else '__all__'
+
+
         return DynamicSerializer
 
 

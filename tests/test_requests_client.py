@@ -70,10 +70,7 @@ class SessionView(APIView):
 class AuthView(APIView):
     @method_decorator(ensure_csrf_cookie)
     def get(self, request):
-        if request.user.is_authenticated:
-            username = request.user.username
-        else:
-            username = None
+        username = request.user.username if request.user.is_authenticated else None
         return Response({
             'username': username
         })

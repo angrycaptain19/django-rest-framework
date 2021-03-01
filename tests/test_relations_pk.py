@@ -109,12 +109,12 @@ class PKManyToManyTests(TestCase):
     def test_many_to_many_retrieve(self):
         queryset = ManyToManySource.objects.all()
         serializer = ManyToManySourceSerializer(queryset, many=True)
-        expected = [
-            {'id': 1, 'name': 'source-1', 'targets': [1]},
-            {'id': 2, 'name': 'source-2', 'targets': [1, 2]},
-            {'id': 3, 'name': 'source-3', 'targets': [1, 2, 3]}
-        ]
         with self.assertNumQueries(4):
+            expected = [
+                {'id': 1, 'name': 'source-1', 'targets': [1]},
+                {'id': 2, 'name': 'source-2', 'targets': [1, 2]},
+                {'id': 3, 'name': 'source-3', 'targets': [1, 2, 3]}
+            ]
             assert serializer.data == expected
 
     def test_many_to_many_retrieve_prefetch_related(self):
@@ -126,12 +126,12 @@ class PKManyToManyTests(TestCase):
     def test_reverse_many_to_many_retrieve(self):
         queryset = ManyToManyTarget.objects.all()
         serializer = ManyToManyTargetSerializer(queryset, many=True)
-        expected = [
-            {'id': 1, 'name': 'target-1', 'sources': [1, 2, 3]},
-            {'id': 2, 'name': 'target-2', 'sources': [2, 3]},
-            {'id': 3, 'name': 'target-3', 'sources': [3]}
-        ]
         with self.assertNumQueries(4):
+            expected = [
+                {'id': 1, 'name': 'target-1', 'sources': [1, 2, 3]},
+                {'id': 2, 'name': 'target-2', 'sources': [2, 3]},
+                {'id': 3, 'name': 'target-3', 'sources': [3]}
+            ]
             assert serializer.data == expected
 
     def test_many_to_many_update(self):
@@ -194,9 +194,9 @@ class PKManyToManyTests(TestCase):
 
         serializer = ManyToManySourceSerializer(source)
 
-        expected = {'id': None, 'name': 'source-unsaved', 'targets': []}
         # no query if source hasn't been created yet
         with self.assertNumQueries(0):
+            expected = {'id': None, 'name': 'source-unsaved', 'targets': []}
             assert serializer.data == expected
 
     def test_reverse_many_to_many_create(self):
@@ -232,22 +232,22 @@ class PKForeignKeyTests(TestCase):
     def test_foreign_key_retrieve(self):
         queryset = ForeignKeySource.objects.all()
         serializer = ForeignKeySourceSerializer(queryset, many=True)
-        expected = [
-            {'id': 1, 'name': 'source-1', 'target': 1},
-            {'id': 2, 'name': 'source-2', 'target': 1},
-            {'id': 3, 'name': 'source-3', 'target': 1}
-        ]
         with self.assertNumQueries(1):
+            expected = [
+                {'id': 1, 'name': 'source-1', 'target': 1},
+                {'id': 2, 'name': 'source-2', 'target': 1},
+                {'id': 3, 'name': 'source-3', 'target': 1}
+            ]
             assert serializer.data == expected
 
     def test_reverse_foreign_key_retrieve(self):
         queryset = ForeignKeyTarget.objects.all()
         serializer = ForeignKeyTargetSerializer(queryset, many=True)
-        expected = [
-            {'id': 1, 'name': 'target-1', 'sources': [1, 2, 3]},
-            {'id': 2, 'name': 'target-2', 'sources': []},
-        ]
         with self.assertNumQueries(3):
+            expected = [
+                {'id': 1, 'name': 'target-1', 'sources': [1, 2, 3]},
+                {'id': 2, 'name': 'target-2', 'sources': []},
+            ]
             assert serializer.data == expected
 
     def test_reverse_foreign_key_retrieve_prefetch_related(self):
@@ -354,12 +354,12 @@ class PKForeignKeyTests(TestCase):
 
     def test_foreign_key_with_unsaved(self):
         source = ForeignKeySource(name='source-unsaved')
-        expected = {'id': None, 'name': 'source-unsaved', 'target': None}
-
         serializer = ForeignKeySourceSerializer(source)
 
         # no query if source hasn't been created yet
         with self.assertNumQueries(0):
+            expected = {'id': None, 'name': 'source-unsaved', 'target': None}
+
             assert serializer.data == expected
 
     def test_foreign_key_with_empty(self):
@@ -417,22 +417,22 @@ class PKRelationTests(TestCase):
 
     def test_relation_field_callable_source(self):
         serializer = ForeignKeyTargetCallableSourceSerializer(self.target)
-        expected = {
-            'id': 1,
-            'name': 'target-1',
-            'first_source': 1,
-        }
         with self.assertNumQueries(1):
+            expected = {
+                'id': 1,
+                'name': 'target-1',
+                'first_source': 1,
+            }
             self.assertEqual(serializer.data, expected)
 
     def test_relation_field_property_source(self):
         serializer = ForeignKeyTargetPropertySourceSerializer(self.target)
-        expected = {
-            'id': 1,
-            'name': 'target-1',
-            'first_source': 1,
-        }
         with self.assertNumQueries(1):
+            expected = {
+                'id': 1,
+                'name': 'target-1',
+                'first_source': 1,
+            }
             self.assertEqual(serializer.data, expected)
 
 
